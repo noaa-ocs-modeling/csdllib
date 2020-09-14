@@ -164,7 +164,7 @@ def addCoastline (coast, col = 'gray'):
     Adds coastline to the map
     """
     plt.plot(coast['lon'], coast['lat'],',',color=col,zorder=2)
-    plt.plot( [360.-x for x in coast['lon']], coast['lat'],',',color=col,zorder=2)
+    plt.plot( [360.-x for x in coast['lon']], coast['lat'],',',color=col,zorder=1)
 
 #==============================================================================
 def addCities (ax, citiesFile):

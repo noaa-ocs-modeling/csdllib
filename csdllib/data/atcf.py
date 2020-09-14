@@ -20,8 +20,10 @@ def read ( atcfFile, product=None ):
     
     oper.sys.msg( 'info','Reading ATCF file ' + atcfFile)
     
-    lines  = open(atcfFile).readlines()
-
+    fp = open(atcfFile)
+    lines  = fp.readlines()
+    fp.close()
+    
     # Extract only lines that belong to the specified product
     plines = []
     pdates = []

@@ -23,6 +23,7 @@ def csvTable ( csvFile, fieldList ):
                 except:
                     continue
             output.append(line)
+        csvf.close()
     return output
 
 #==============================================================================
@@ -44,11 +45,12 @@ def csvTableToDict ( csvFile, fieldList ):
             # set the default value of [] if this key has not been seen
             for col_header, data_column in zip(headings, row):
                 output.setdefault(col_header, []).append(data_column)
+        csv_data.close()
     
     for n in output:
         print (n)
     stop
-    
+
     return output
 
 #==============================================================================

@@ -87,7 +87,7 @@ def readStation (csvFile, verbose=1):
                 surge.append   ( float(SURGE) )
                 bias.append    ( float(BIAS) )
                 twl.append     ( float(TWL) )
-    
+        csvfile.close()
     return  {'time'      : dtime, 
              'htp'       : tide,
              'swl'       : surge,

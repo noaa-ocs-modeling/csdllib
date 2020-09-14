@@ -61,7 +61,9 @@ def readlines (remote, verbose=False, tmpDir=None, tmpFile=None):
         msg('info','downloading ' + remote + ' as temporary ' + tmpFile)
 
     urllib.request.urlretrieve(remote, tmpFile)
-    lines  = open(tmpFile,errors='replace').readlines()
+    fp = open(tmpFile,errors='replace')
+    lines  = fp.readlines()
+    fp.close()
     os.remove( tmpFile )
         
     return lines
@@ -93,8 +95,10 @@ def readlines_ssl (remote, verbose=False, tmpDir=None, tmpFile=None):
     except:
         msg ('error', 'Cannot download ' + remote)       
 
-    lines  = open(tmpFile,errors='replace').readlines()
+    fp = open(tmpFile,errors='replace')
+    lines  = fp.readlines()
     os.remove( tmpFile )
+    fp.close()
 
     return lines
 

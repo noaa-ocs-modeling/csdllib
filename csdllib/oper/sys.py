@@ -67,6 +67,7 @@ def config ( iniFile ):
     '''
     with open(iniFile) as f:
         sample_config = f.read()
+        f.close()
 
     config = ConfigParser(allow_no_value=True)
     config.readfp( io.StringIO(sample_config) )

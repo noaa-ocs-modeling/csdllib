@@ -138,7 +138,9 @@ def readData (xmlFile):
    ## Parse the file
     dates  = []
     values = []
-    lines = open(xmlFile,errors='replace').readlines()
+    fp = open(xmlFile,errors='replace');
+    lines = fp.readlines()
+    fp.close()
     for line in lines:
         try:
             dates.append  (datetime.strptime(line[13:29],'%Y-%m-%d %H:%M'))
@@ -164,6 +166,7 @@ def writeData (data, outFile):
                 datetime.strftime(dates[n], '%Y-%m-%d %H:%M') + ' '+ \
                 str(values[n]) + '\n'
             f.write (line)
+        f.close()
 
 #==============================================================================
 def getStationInfo (stationID, verbose=False, tmpDir=None):
@@ -219,6 +222,7 @@ def writeStationInfo (info,  localFile):
         f.write (info['state'] + '\n')
         f.write (str(info['lon']) + '\n')
         f.write (str(info['lat']) + '\n')
+        f.close()
 
 #==============================================================================
 def readStationInfo (localFile):
@@ -227,7 +231,9 @@ def readStationInfo (localFile):
     nosid = []
     lon   = []
     lat   = []
-    lines = open(localFile,errors='replace').readlines()
+    fp = open(localFile,errors='replace')
+    lines = fp.readlines()
+    fp.close()
     name  = lines[0].rstrip()
     state = lines[1].rstrip()
     lon   = float(lines[2])
@@ -244,7 +250,9 @@ def getActiveStations (verbose=False, tmpDir=False,
     if 'http' in request:
         lines = oper.transfer.readlines (request, verbose, tmpDir)
     else:
-        lines = open(request).readlines()
+        fp = open(request)
+        lines = fp.readlines()
+        fp.close()
 
     active = dict()
     active['nos_id'] = []

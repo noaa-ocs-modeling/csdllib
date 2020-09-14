@@ -272,6 +272,8 @@ def readSurfaceField_ascii ( asciiFile, verbose=1 ):
     fill_value = -99999.0
     value[value==fill_value]=np.nan
     
+    f.close()
+    
     return value 
 
 #==============================================================================
