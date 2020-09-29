@@ -8,6 +8,29 @@ import matplotlib.pyplot as plt
 import matplotlib.tri    as tri
 import matplotlib.patches as patches
 import numpy as np
+from   matplotlib.colors import LinearSegmentedColormap
+
+cdict = {'red': ((0.  , 1  , 1),
+                 (0.05, 1  , 1),
+                 (0.11, 0  , 0),
+                 (0.66, 1, 1),
+                 (0.89, 1, 1),
+                 (1   , 0.5, 0.5)),
+         'green': ((0., 1, 1),
+                   (0.05, 1, 1),
+                   (0.11, 0, 0),
+                   (0.375, 1, 1),
+                   (0.64, 1, 1),
+                   (0.91, 0, 0),
+                   (1, 0, 0)),
+         'blue': ((0., 1, 1),
+                  (0.05, 1, 1),
+                  (0.11, 1, 1),
+                  (0.34, 1, 1),
+                  (0.65, 0, 0),
+                  (1, 0, 0))}
+
+jetMinWi = LinearSegmentedColormap('my_colormap',cdict,256)
 
 #==============================================================================
 def set(lonlim, latlim, coast=None, fig_w=8.0):
@@ -117,9 +140,11 @@ def addField (grid, field, clim = [0,3], zorder=0, plotMax = False, lonlim=None,
     #print ('clim = ' + str(clim[0]) + ' ' + str(clim[1]))
     #print('len(z)  =' + str(len(z)))
 
+    
+    
     plt.tripcolor(Tri, z, shading='gouraud',\
                           edgecolors='none', \
-                          cmap=myCmap, \
+                          cmap=jetMinWi, \
                           vmin=clim[0], \
                           vmax=clim[1], zorder=zorder)
     #current_cmap = matplotlib.cm.get_cmap()
