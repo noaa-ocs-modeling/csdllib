@@ -6,6 +6,7 @@ import urllib.request
 import uuid
 import ssl
 from csdllib.oper.sys import msg
+from pathlib import Path
 
 #==============================================================================
 def download (remote, local):
@@ -65,7 +66,7 @@ def readlines (remote, verbose=False, tmpDir=None, tmpFile=None):
     lines  = fp.readlines()
     fp.close()
     os.remove( tmpFile )
-        
+            
     return lines
 
 #==============================================================================
@@ -104,6 +105,16 @@ def readlines_ssl (remote, verbose=False, tmpDir=None, tmpFile=None):
 
 #==============================================================================
 def upload(localFile, userHost, remoteFolder):
+    #Remove the old Files before copying
+    remoteFile = Path(localFile).name
+    remoteFilePath = os.path.join(remoteFolder, remoteFile)
+    cmd = 'ssh -q ' + userHost + " 'rm -rf " + remoteFilePath + "'"
+    if os.system(cmd) == 0:
+        msg('info', 'executed ' + cmd)
+    else:
+        msg('error', 'failed to execute ' + cmd)
+
+    #Copy the new Files
     cmd = 'scp -q ' + localFile + ' ' + userHost + ':' + remoteFolder
     if os.system(cmd) == 0:
         msg('info', 'executed ' + cmd)

@@ -6,6 +6,8 @@ import re
 from datetime import datetime
 import numpy as np
 from csdllib import oper
+import urllib
+import json
 
 #==============================================================================
 def getData (stationID,  dateRange, tmpDir=None,
@@ -184,32 +186,35 @@ def getStationInfo (stationID, verbose=False, tmpDir=None):
         & getStationInfo('8518750')['name']
         & 'The Battery'
     """
-    request = ( 'https://tidesandcurrents.noaa.gov/stationhome.html?id=' +
-               stationID )
+    #request = ( 'https://tidesandcurrents.noaa.gov/stationhome.html?id=' +
+    #           stationID )
+    request = ( 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/'+
+                stationID +'.json?expand=details')
+    
     try:
-        lines = oper.transfer.readlines (request, verbose=verbose, tmpDir=tmpDir)    
+        jsonResponse = urllib.request.urlopen(request).read()
+        #lines = oper.transfer.readlines (request, verbose=verbose, tmpDir=tmpDir)    
     except:
         oper.sys.msg( 'e','Cannot get info for  ' + stationID)
         return None
-        
+    
     try:
-        for line in lines:
-            if 'var station_name'  in line:
-                stationName  = line.split('"')[1]
-            if 'var station_state' in line:
-                stationState = line.split('"')[1]
-            if 'var lat'           in line:
-                lat          = float(line.split('"')[1])
-            if 'var lon'           in line:
-                lon          = float(line.split('"')[1])   
-                if lon > 0:
-                    lon = lon - 360. # ADCIRC req
+        stationData = json.loads(jsonResponse)
+            
+        stationName  = stationData["stations"][0]["name"]
+        stationState = stationData["stations"][0]["state"]
+        lat          = float(stationData["stations"][0]["lat"])
+        lon          = float(stationData["stations"][0]["lng"])
         
-        return {'name'  : stationName, 
-                'state' : stationState,
-                'lon'   : lon, 
-                'lat'   : lat,
-                'nosid' : stationID }
+        #This is ADCIRC requirement.
+        if lon > 0:
+            lon = lon - 360.
+        
+        return { 'name'  : stationName,
+                 'state' : stationState,
+                 'lon'   : lon,
+                 'lat'   : lat,
+                 'nosid' : stationID }
     except:
         oper.sys.msg( 'e','Cannot get info for  ' + stationID)
         return None
