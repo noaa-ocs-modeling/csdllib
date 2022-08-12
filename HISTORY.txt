@@ -1,0 +1,16 @@
+			 Version History File
+                              csdllib
+
+This file shows the following:
+(a) What was changed in science code
+(b) What was changed in the process
+(c) Why it was changed
+(d) How the output product will be affected by the change
+(e) Date the change was made.
+
+
+V2.0.0  (Based on initial baseline)      			      08/12/2022
+================================================================================
+- This is a merge from v2.0.0 branch to the master branch. This includes code
+  fixes to comply with the new coops website for requesting the station data.
+  Added code functionality to retry in case the station download did not work.
